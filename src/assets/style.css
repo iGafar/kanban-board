@@ -1,0 +1,105 @@
+body {
+  color: #000000;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.header,
+.footer {
+  background-color: #0067a3;
+  color: #ffffff;
+}
+
+.header {
+  font-size: 28px;
+}
+
+.header .container,
+.footer .container {
+  height: 55px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 5px;
+  width: 134px;
+  padding: 10px 5px;
+  position: absolute;
+  top: 50px;
+  right: 0;
+}
+
+.profile::after {
+  content: "";
+  width: 11px;
+  height: 11px;
+  background-color: #ffffff;
+  position: absolute;
+  transform: rotate(45deg);
+  top: -5px;
+  right: 38px;
+}
+
+.profile p {
+  cursor: pointer;
+}
+
+.main {
+  background-color: #0079bf;
+  flex-grow: 1;
+  padding: 15px 0;
+}
+
+.main .container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.block {
+  padding: 8px 5px;
+  background-color: #ebecf0;
+  border-radius: 10px;
+  width: 282px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button {
+  display: flex;
+  gap: 5px;
+  color: #5e6c84;
+  width: 102px;
+  padding: 3px 2px;
+}
+
+.button:hover {
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.footer-left {
+  display: flex;
+  gap: 30px;
+}

@@ -1,42 +1,69 @@
-import React from 'react'
-import TaskBlock from './TaskBlock'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
+import TaskBlock from "./TaskBlock";
+import TaskDescription from "./TaskDescription";
 
-export default function Main() {
-  function useLocalStorageTasks() {
-    const [ state, setState ] = useState(() => localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')) : {
-      backlog: [],
-      ready: [],
-      in_progress: [],
-      finished: []
-    })
+export default function Main(props) {
+  function useLocalStorage(columnName) {
+    const [state, setState] = useState(() =>
+      localStorage.getItem(columnName)
+        ? JSON.parse(localStorage.getItem(columnName))
+        : []
+    );
 
     useEffect(() => {
-        localStorage.setItem('tasks', JSON.stringify(tasks))
-    }, [state])
+      localStorage.setItem(columnName, JSON.stringify(state));
+    }, [state]);
 
-    return [ state, setState ]
-}
+    return [state, setState];
+  }
 
-  const [tasks, setTasks] = useLocalStorageTasks()
+  const [backlog, setBacklog] = useLocalStorage('backlog');
+  const [ready, setReady] = useLocalStorage('ready');
+  const [inProgress, setInPropgress] = useLocalStorage('in_progress');
+  const [finished, setFinished] = useLocalStorage('finished');
 
-  function addBacklogTask(task) {
-    setTasks({
-      backlog: [...tasks.backlog, task],
-      ready: [...tasks.ready],
-      in_progress: [...tasks.in_progress],
-      finished: [...tasks.finished]
-    })
+  props.setActiveTasks(backlog.length);
+  props.setFinishedTasks(finished.length);
+
+  function addTask(task, column) {
+    if (column === "backlog") {
+      setBacklog([...backlog, task]);
+    } else if (column === "ready") {
+      setReady([...ready, task]);
+      setBacklog(backlog.filter((el) => el !== task));
+    } else if (column === "in_progress") {
+      setInPropgress([...inProgress, task]);
+      setReady(ready.filter((el) => el !== task));
+    } else {
+      setFinished([...finished, task]);
+      setInPropgress(inProgress.filter((el) => el !== task));
+    }
   }
 
   return (
-    <div className='main'>
+    <div className="main">
       <div className="container">
-        <TaskBlock name='Backlog' tasks={tasks.backlog} addTask={addBacklogTask}></TaskBlock>
-        <TaskBlock name='Ready' tasks={tasks.ready}></TaskBlock>
-        <TaskBlock name='In Progress' tasks={tasks.in_progress}></TaskBlock>
-        <TaskBlock name='Finished' tasks={tasks.finished}></TaskBlock>
+        <TaskBlock name="Backlog" tasks={backlog} addTask={addTask}></TaskBlock>
+        <TaskBlock
+          name="Ready"
+          tasks={ready}
+          select={backlog}
+          addTask={addTask}
+        ></TaskBlock>
+        <TaskBlock
+          name="In Progress"
+          tasks={inProgress}
+          select={ready}
+          addTask={addTask}
+        ></TaskBlock>
+        <TaskBlock
+          name="Finished"
+          tasks={finished}
+          select={inProgress}
+          addTask={addTask}
+        ></TaskBlock>
+        <TaskDescription  />
       </div>
     </div>
-  )
+  );
 }

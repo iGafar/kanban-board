@@ -35,13 +35,14 @@ body {
 .profile {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 3px;
   font-size: 14px;
   background-color: #ffffff;
   color: #000000;
+  border: 1px solid #ebecf0;
   border-radius: 5px;
   width: 134px;
-  padding: 10px 5px;
+  padding: 5px 2px;
   position: absolute;
   top: 50px;
   right: 0;
@@ -59,6 +60,12 @@ body {
 }
 
 .profile p {
+  padding: 5px 3px;
+  border-radius: 3px;
+}
+
+.profile p:hover {
+  background-color: #ebecf0;
   cursor: pointer;
 }
 
@@ -81,25 +88,113 @@ body {
   background-color: #ebecf0;
   border-radius: 10px;
   width: 282px;
+}
+
+.block h3 {
+  margin-bottom: 10px;
+}
+
+.block input {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.block-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 10px;
 }
+
+.block-task {
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 8px;
+}
+
+.block-arrow {
+  border-radius: 5px;
+  padding: 10px 8px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.block-arrow img {
+  align-self: flex-end;
+}
+
+.task-select {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 8px 0;
+}
+
+.task-select__option {
+  padding: 8px;
+}
+
+.task-select__option:hover {
+  background-color: #DEDEDE;
+}
+
 
 .button {
   display: flex;
+  justify-content: center;
   gap: 5px;
   color: #5e6c84;
   width: 102px;
   padding: 3px 2px;
+  border-radius: 5px;
 }
 
 .button:hover {
   background-color: #fff;
-  border-radius: 5px;
+  opacity: 0.9;
+}
+
+.button:disabled {
+  opacity: 1;
+  background-color: #ebecf0;
 }
 
 .footer-left {
   display: flex;
   gap: 30px;
+}
+
+@media (max-width: 600px) {
+  .logo {
+    font-size: 24px;
+  }
+
+  .main .container {
+    justify-content: center;
+  }
+
+  .footer .container {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 400px) {
+  .header .container {
+    justify-content: flex;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .footer-left {
+    gap: 10px;
+  }
 }

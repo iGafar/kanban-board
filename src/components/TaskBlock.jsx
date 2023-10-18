@@ -39,6 +39,7 @@ export default function TaskBlock(props) {
   }
 
   function addButtonEvent() {
+    console.log(document.querySelectorAll('.block-task'));
     if (props.name === "Backlog") {
       if (isAreaOpen && taskText) {
         setAreaOpen(!isAreaOpen);

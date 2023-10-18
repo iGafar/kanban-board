@@ -62,7 +62,7 @@ export default function Main(props) {
           select={inProgress}
           addTask={addTask}
         ></TaskBlock>
-        <TaskDescription  />
+        {/* <TaskDescription  /> */}
       </div>
     </div>
   );

@@ -12,6 +12,9 @@ export default function TaskBlock(props) {
     if (props.name === "Backlog") {
       return <TaskArea text={taskText} setTaskText={setTaskText} />;
     } else if (props.name === "Ready") {
+      if (props.length === 0) {
+        return setAreaOpen(!isAreaOpen);
+      }
       return (
         <TaskSelect
           tasks={props.select}
@@ -20,6 +23,9 @@ export default function TaskBlock(props) {
         />
       );
     } else if (props.name === "In Progress") {
+      if (props.length === 0) {
+        return setAreaOpen(!isAreaOpen);
+      }
       return (
         <TaskSelect
           tasks={props.select}
@@ -28,6 +34,9 @@ export default function TaskBlock(props) {
         />
       );
     } else if (props.name === "Finished") {
+      if (props.length === 0) { 
+        return setAreaOpen(!isAreaOpen);
+      }
       return (
         <TaskSelect
           tasks={props.select}
@@ -39,7 +48,6 @@ export default function TaskBlock(props) {
   }
 
   function addButtonEvent() {
-    console.log(document.querySelectorAll('.block-task'));
     if (props.name === "Backlog") {
       if (isAreaOpen && taskText) {
         setAreaOpen(!isAreaOpen);
@@ -48,6 +56,8 @@ export default function TaskBlock(props) {
       } else {
         setAreaOpen(!isAreaOpen);
       }
+    } else if (props.select.length === 0) {
+      return alert("В предыдущем блоке нет задач");
     } else {
       setAreaOpen(!isAreaOpen);
     }
@@ -74,7 +84,10 @@ export default function TaskBlock(props) {
         activityBlock()
       ) : isAreaOpen ? (
         <div className="block-arrow">
-          <img src={taskArrow} alt="Стрелка" />
+          <span onClick={() => setAreaOpen(!isAreaOpen)}>
+            <img src={taskArrow} alt="Стрелка" />
+          </span>
+
           {activityBlock()}
         </div>
       ) : (

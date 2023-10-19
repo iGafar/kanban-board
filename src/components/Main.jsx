@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import TaskBlock from "./TaskBlock";
-import TaskDescription from "./TaskDescription";
 
 export default function Main(props) {
   function useLocalStorage(columnName) {
@@ -12,7 +11,7 @@ export default function Main(props) {
 
     useEffect(() => {
       localStorage.setItem(columnName, JSON.stringify(state));
-    }, [state]);
+    }, [state, columnName]);
 
     return [state, setState];
   }
@@ -25,18 +24,20 @@ export default function Main(props) {
   props.setActiveTasks(backlog.length);
   props.setFinishedTasks(finished.length);
 
-  function addTask(task, column) {
+  console.log(backlog);
+
+  function addTask(task, column, index) {
     if (column === "backlog") {
       setBacklog([...backlog, task]);
     } else if (column === "ready") {
       setReady([...ready, task]);
-      setBacklog(backlog.filter((el) => el !== task));
+      setBacklog(backlog.filter((el, i) => i !== index));
     } else if (column === "in_progress") {
       setInPropgress([...inProgress, task]);
-      setReady(ready.filter((el) => el !== task));
+      setReady(ready.filter((el, i) => i !== index));
     } else {
       setFinished([...finished, task]);
-      setInPropgress(inProgress.filter((el) => el !== task));
+      setInPropgress(inProgress.filter((el, i) => i !== index));
     }
   }
 
@@ -49,18 +50,21 @@ export default function Main(props) {
           tasks={ready}
           select={backlog}
           addTask={addTask}
+          length={backlog.length}
         ></TaskBlock>
         <TaskBlock
           name="In Progress"
           tasks={inProgress}
           select={ready}
           addTask={addTask}
+          length={ready.length}
         ></TaskBlock>
         <TaskBlock
           name="Finished"
           tasks={finished}
           select={inProgress}
           addTask={addTask}
+          length={inProgress.length}
         ></TaskBlock>
         {/* <TaskDescription  /> */}
       </div>

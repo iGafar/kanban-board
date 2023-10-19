@@ -114,17 +114,15 @@ body {
 
 .block-arrow {
   border-radius: 5px;
-  padding: 10px 8px;
   margin-bottom: 10px;
   background-color: #fff;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
   position: relative;
 }
 
-.block-arrow img {
-  align-self: flex-end;
+.block-arrow span {
+  display: flex;
+  padding: 10px 8px;
+  justify-content: flex-end;
 }
 
 .task-select {
@@ -142,9 +140,8 @@ body {
 }
 
 .task-select__option:hover {
-  background-color: #DEDEDE;
+  background-color: #dedede;
 }
-
 
 .button {
   display: flex;
@@ -187,7 +184,7 @@ body {
 
 @media (max-width: 400px) {
   .header .container {
-    justify-content: flex;
+    justify-content: flex-end;
   }
 
   .logo {

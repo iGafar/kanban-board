@@ -11,7 +11,7 @@ export default function TaskSelect({ tasks, addTask, column }) {
       {tasks.map((task, index) => {
         return (
           <li key={index} className="task-select__option" onClick={() => selectTask(task, index)}>
-            {task}
+            {task.text}
           </li>
         );
       })}

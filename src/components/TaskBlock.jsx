@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import plus from "../assets/images/add-card.svg";
 import taskArrow from "../assets/images/taskArrow.svg";
 import TaskArea from "./TaskArea";
@@ -6,11 +7,17 @@ import TaskSelect from "./TaskSelect";
 
 export default function TaskBlock(props) {
   const [isAreaOpen, setAreaOpen] = useState(false);
-  const [taskText, setTaskText] = useState("");
+  const [task, setTask] = useState({id: 0, text: '', description: ''});
 
   function activityBlock() {
     if (props.name === "Backlog") {
-      return <TaskArea text={taskText} setTaskText={setTaskText} />;
+      return (
+        <TaskArea
+          task={task}
+          setTask={setTask}
+          tasksLength={props.tasksLength}
+        />
+      );
     } else if (props.name === "Ready") {
       if (props.length === 0) {
         return setAreaOpen(!isAreaOpen);
@@ -34,7 +41,7 @@ export default function TaskBlock(props) {
         />
       );
     } else if (props.name === "Finished") {
-      if (props.length === 0) { 
+      if (props.length === 0) {
         return setAreaOpen(!isAreaOpen);
       }
       return (
@@ -49,18 +56,38 @@ export default function TaskBlock(props) {
 
   function addButtonEvent() {
     if (props.name === "Backlog") {
-      if (isAreaOpen && taskText) {
+      if (isAreaOpen && task.text) {
         setAreaOpen(!isAreaOpen);
-        props.addTask(taskText, "backlog");
-        setTaskText("");
+        props.addTask(
+          { id: props.tasksLength, ...task, description: "" },
+          "backlog"
+        );
+        setTask({ id: 0, text: "", description: "" });
       } else {
         setAreaOpen(!isAreaOpen);
       }
-    } else if (props.select.length === 0) {
-      return alert("В предыдущем блоке нет задач");
     } else {
       setAreaOpen(!isAreaOpen);
     }
+  }
+
+  function buttonBlock() {
+    return (
+      <button
+        className="button"
+        disabled={
+          props.name !== "Backlog" && !props.select.length ? true : false
+        }
+        style={{
+          backgroundColor: !isAreaOpen || "#0079BF",
+          color: !isAreaOpen || "#fff",
+        }}
+        onClick={() => addButtonEvent()}
+      >
+        {isAreaOpen || <img src={plus} alt="add cart" />}
+        <p style={{ fontSize: "18px" }}>{isAreaOpen ? "Submit" : "Add card"}</p>
+      </button>
+    );
   }
 
   return (
@@ -71,7 +98,9 @@ export default function TaskBlock(props) {
           props.tasks.map((task, index) => {
             return (
               <li className="block-task" key={index}>
-                {task}
+                <Link to={`tasks/${task.id}`} state={{ task }}>
+                  {task.text}
+                </Link>
               </li>
             );
           })
@@ -94,11 +123,13 @@ export default function TaskBlock(props) {
         false
       )}
 
-      {isAreaOpen && props.name !== "Backlog" ? (
+      {buttonBlock()}
+
+      {/* {isAreaOpen && props.name !== "Backlog" ? (
         false
       ) : (
         <button
-          className="button"
+          className={`button ${!props.select.length ? 'button_disabled' : ''}`}
           style={{
             backgroundColor: !isAreaOpen || "#0079BF",
             color: !isAreaOpen || "#fff",
@@ -110,7 +141,7 @@ export default function TaskBlock(props) {
             {isAreaOpen ? "Submit" : "Add card"}
           </p>
         </button>
-      )}
+      )} */}
     </div>
   );
 }

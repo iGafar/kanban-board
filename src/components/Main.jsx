@@ -2,11 +2,11 @@ import React from "react";
 import TaskBlock from "./TaskBlock";
 
 export default function Main(props) {
-  
-  const tasksLength = props.backlog.length + props.ready.length + props.inProgress.length + props.finished.length
-
-  props.setActiveTasks(props.backlog.length);
-  props.setFinishedTasks(props.finished.length);
+  const tasksLength =
+    props.backlog.length +
+    props.ready.length +
+    props.inProgress.length +
+    props.finished.length;
 
   function addTask(task, column, index) {
     if (column === "backlog") {
@@ -26,10 +26,10 @@ export default function Main(props) {
   return (
     <div className="main">
       <div className="container">
-        <TaskBlock 
-          name="Backlog" 
-          tasks={props.backlog} 
-          addTask={addTask} 
+        <TaskBlock
+          name="Backlog"
+          tasks={props.backlog}
+          addTask={addTask}
           tasksLength={tasksLength}
         ></TaskBlock>
         <TaskBlock

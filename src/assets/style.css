@@ -161,7 +161,7 @@ body {
 
 .button:disabled {
   cursor: default;
-  opacity: .6;
+  opacity: 0.6;
   background: none;
 }
 

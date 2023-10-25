@@ -26,8 +26,8 @@ function App() {
   const [inProgress, setInProgress] = useLocalStorage("in_progress");
   const [finished, setFinished] = useLocalStorage("finished");
 
-  const [activeTasks, setActiveTasks] = React.useState(0);
-  const [finishedTasks, setFinishedTasks] = React.useState(0);
+  const activeTasks = backlog.length;
+  const finishedTasks = finished.length;
 
   return (
     <div className="wrapper">
@@ -37,8 +37,6 @@ function App() {
           path="/"
           element={
             <Main
-              setActiveTasks={setActiveTasks}
-              setFinishedTasks={setFinishedTasks}
               backlog={backlog}
               setBacklog={setBacklog}
               ready={ready}
@@ -50,7 +48,21 @@ function App() {
             />
           }
         />
-        <Route path="tasks/:taskId" element={<TaskDescription backlog={backlog}/>} />
+        <Route
+          path="tasks/:taskId"
+          element={
+            <TaskDescription
+              backlog={backlog}
+              setBacklog={setBacklog}
+              ready={ready}
+              setReady={setReady}
+              inProgress={inProgress}
+              setInProgress={setInProgress}
+              finished={finished}
+              setFinished={setFinished}
+            />
+          }
+        />
       </Routes>
       <Footer activeTasks={activeTasks} finishedTasks={finishedTasks} />
     </div>

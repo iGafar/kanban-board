@@ -7,7 +7,7 @@ import TaskSelect from "./TaskSelect";
 
 export default function TaskBlock(props) {
   const [isAreaOpen, setAreaOpen] = useState(false);
-  const [task, setTask] = useState({id: 0, text: '', description: ''});
+  const [task, setTask] = useState({ id: 0, text: "", description: "" });
 
   function activityBlock() {
     if (props.name === "Backlog") {
@@ -71,25 +71,6 @@ export default function TaskBlock(props) {
     }
   }
 
-  function buttonBlock() {
-    return (
-      <button
-        className="button"
-        disabled={
-          props.name !== "Backlog" && !props.select.length ? true : false
-        }
-        style={{
-          backgroundColor: !isAreaOpen || "#0079BF",
-          color: !isAreaOpen || "#fff",
-        }}
-        onClick={() => addButtonEvent()}
-      >
-        {isAreaOpen || <img src={plus} alt="add cart" />}
-        <p style={{ fontSize: "18px" }}>{isAreaOpen ? "Submit" : "Add card"}</p>
-      </button>
-    );
-  }
-
   return (
     <div className="block">
       <h3>{props.name}</h3>
@@ -98,7 +79,10 @@ export default function TaskBlock(props) {
           props.tasks.map((task, index) => {
             return (
               <li className="block-task" key={index}>
-                <Link to={`tasks/${task.id}`} state={{ task }}>
+                <Link
+                  to={`tasks/${task.id}`}
+                  state={{ task, column: props.name }}
+                >
                   {task.text}
                 </Link>
               </li>
@@ -123,25 +107,20 @@ export default function TaskBlock(props) {
         false
       )}
 
-      {buttonBlock()}
-
-      {/* {isAreaOpen && props.name !== "Backlog" ? (
-        false
-      ) : (
-        <button
-          className={`button ${!props.select.length ? 'button_disabled' : ''}`}
-          style={{
-            backgroundColor: !isAreaOpen || "#0079BF",
-            color: !isAreaOpen || "#fff",
-          }}
-          onClick={() => addButtonEvent()}
-        >
-          {isAreaOpen || <img src={plus} alt="add cart" />}
-          <p style={{ fontSize: "18px" }}>
-            {isAreaOpen ? "Submit" : "Add card"}
-          </p>
-        </button>
-      )} */}
+      <button
+        className="button"
+        disabled={
+          props.name !== "Backlog" && !props.select.length ? true : false
+        }
+        style={{
+          backgroundColor: !isAreaOpen || "#0079BF",
+          color: !isAreaOpen || "#fff",
+        }}
+        onClick={() => addButtonEvent()}
+      >
+        {isAreaOpen || <img src={plus} alt="add cart" />}
+        <p style={{ fontSize: "18px" }}>{isAreaOpen ? "Submit" : "Add card"}</p>
+      </button>
     </div>
   );
 }

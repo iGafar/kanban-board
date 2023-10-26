@@ -31,6 +31,7 @@ body {
   align-items: center;
   position: relative;
   z-index: 1;
+  cursor: pointer;
 }
 
 .profile {
@@ -105,6 +106,8 @@ body {
   flex-direction: column;
   gap: 10px;
   margin-bottom: 10px;
+  overflow: auto;
+  max-height: 69vh;
 }
 
 .block-task {
@@ -127,21 +130,14 @@ body {
 }
 
 .task-select {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
   width: 100%;
-  background-color: #fff;
   border-radius: 5px;
-  padding: 8px 0;
-}
-
-.task-select__option {
   padding: 8px;
-}
-
-.task-select__option:hover {
-  background-color: #dedede;
+  font-size: 18px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  appearance: none;
+  background: #fff url(./images/taskArrow.svg) no-repeat 96%;
 }
 
 .button {

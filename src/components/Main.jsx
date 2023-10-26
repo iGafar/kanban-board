@@ -9,12 +9,12 @@ export default function Main(props) {
     props.finished.length;
 
   function addTask(task, column, index) {
-    if (column === "backlog") {
+    if (column === "Backlog") {
       props.setBacklog([...props.backlog, task]);
-    } else if (column === "ready") {
+    } else if (column === "Ready") {
       props.setReady([...props.ready, task]);
       props.setBacklog(props.backlog.filter((el, i) => i !== index));
-    } else if (column === "in_progress") {
+    } else if (column === "In Progress") {
       props.setInProgress([...props.inProgress, task]);
       props.setReady(props.ready.filter((el, i) => i !== index));
     } else {

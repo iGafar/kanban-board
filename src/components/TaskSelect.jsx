@@ -1,29 +1,30 @@
 import React from "react";
+import Select from "react-select";
+import arrowDown from "../assets/images/arrow-down.svg";
 
 export default function TaskSelect({ tasks, addTask, column }) {
-  function selectTask(task, index) {
-    addTask(task, column, index);
+  function selectTask(task) {
+    addTask(task, column);
   }
 
-  function handleSelect(e) {
-    e.target.value = "";
+  function handleSelect(task) {
+    const t = tasks.find((t) => task.id === t.id);
+    selectTask(t);
   }
+
+  const options = tasks.map(function (task) {
+    return { value: task.text, label: task.text, id: task.id };
+  });
+
+  console.log(tasks);
 
   return (
-    <select className="task-select" onChange={handleSelect}>
-      <option hidden></option>
-
-      {tasks.map((task, index) => {
-        return (
-          <option
-            key={index}
-            className="task-select__option"
-            onClick={() => selectTask(task, index)}
-          >
-            {task.text}
-          </option>
-        );
-      })}
-    </select>
+    <Select
+      classNamePrefix="select"
+      options={options}
+      value={""}
+      components={{ DropdownIndicator: false }}
+      onChange={handleSelect}
+    />
   );
 }

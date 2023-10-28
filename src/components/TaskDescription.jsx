@@ -1,24 +1,22 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useLocation, useParams, Link } from "react-router-dom";
 
 export default function TaskDescription(props) {
   let { state } = useLocation();
   let { taskId } = useParams();
 
-  let description = "";
+  const description = useRef(state.task.description);
 
   function changeDescription(column, setColumn) {
     const index = column.map((task) => task.id).indexOf(Number(taskId));
     const tasks = [...column];
     const task = { ...column[index] };
-    task.description = description;
+    task.description = description.current;
     tasks[index] = task;
     setColumn(tasks);
   }
 
-  function handleMouseLeave(e) {
-    description = e.target.value;
-
+  function changeTaskDescription() {
     if (state.column === "Backlog") {
       changeDescription(props.backlog, props.setBacklog);
     } else if (state.column === "Ready") {
@@ -30,18 +28,22 @@ export default function TaskDescription(props) {
     }
   }
 
+  function handleChange(e) {
+    description.current = e.target.value;
+  }
+
   return (
     <div className="main">
       <div className="container">
         <div className="description__container">
           <h1 className="description__title">{state.task.text}</h1>
           <textarea
-            onMouseLeave={handleMouseLeave}
+            onChange={handleChange}
             className="description__text"
             placeholder="This task has no description"
             defaultValue={state.task.description}
           ></textarea>
-          <div className="description__btn">
+          <div className="description__btn" onClick={changeTaskDescription}>
             <Link to="/">
               <svg
                 width="25"

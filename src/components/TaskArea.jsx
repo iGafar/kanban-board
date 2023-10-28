@@ -2,14 +2,17 @@ import React from "react";
 
 export default function TaskArea(props) {
   function handleChange(e) {
-    props.setTask({ text: e.target.value });
+    props.setTask({ text: e.target.value, description: "" });
   }
 
   function handleKeyUp(e) {
-    if(e.code === 'Enter') {
-      props.addTask(props.task, "Backlog")
+    if (e.code === "Enter") {
+      props.addTask(
+        { id: props.tasksLength, text: props.task.text, ...props.task },
+        "Backlog"
+      );
       props.setTask({ id: 0, text: "", description: "" });
-      props.setAreaOpen(false)
+      props.setAreaOpen(false);
     }
   }
 

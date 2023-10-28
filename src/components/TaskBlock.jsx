@@ -69,7 +69,7 @@ export default function TaskBlock(props) {
             );
           })
         ) : (
-          <p className="block-task">Нет задач</p>
+          <p className="block-task block-task-none">Нет задач</p>
         )}
       </ul>
 

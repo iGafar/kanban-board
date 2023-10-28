@@ -8,18 +8,18 @@ export default function Main(props) {
     props.inProgress.length +
     props.finished.length;
 
-  function addTask(task, column, index) {
+  function addTask(task, column) {
     if (column === "Backlog") {
       props.setBacklog([...props.backlog, task]);
     } else if (column === "Ready") {
       props.setReady([...props.ready, task]);
-      props.setBacklog(props.backlog.filter((el, i) => i !== index));
+      props.setBacklog(props.backlog.filter((el) => el.id !== task.id));
     } else if (column === "In Progress") {
       props.setInProgress([...props.inProgress, task]);
-      props.setReady(props.ready.filter((el, i) => i !== index));
+      props.setReady(props.ready.filter((el) => el.id !== task.id));
     } else {
       props.setFinished([...props.finished, task]);
-      props.setInProgress(props.inProgress.filter((el, i) => i !== index));
+      props.setInProgress(props.inProgress.filter((el) => el.id !== task.id));
     }
   }
 

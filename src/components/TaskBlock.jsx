@@ -38,10 +38,12 @@ export default function TaskBlock(props) {
     if (props.name === "Backlog") {
       if (isAreaOpen && task.text) {
         setAreaOpen(!isAreaOpen);
-        props.addTask(
-          { id: props.tasksLength, ...task, description: "" },
-          "Backlog"
-        );
+        if (task.text.trim()) {
+          props.addTask(
+            { id: props.tasksLength, ...task, description: "" },
+            "Backlog"
+          );
+        }
         setTask({ id: 0, text: "", description: "" });
       } else {
         setAreaOpen(!isAreaOpen);

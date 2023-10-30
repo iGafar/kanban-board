@@ -1,6 +1,5 @@
 import React from "react";
 import Select from "react-select";
-import arrowDown from "../assets/images/arrow-down.svg";
 
 export default function TaskSelect({ tasks, addTask, column }) {
   function selectTask(task) {

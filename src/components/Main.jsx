@@ -1,61 +1,73 @@
-import React from "react";
+import React, { useMemo } from "react";
 import TaskBlock from "./TaskBlock";
 
-export default function Main(props) {
+export default function Main({
+  backlog,
+  setBacklog,
+  ready,
+  setReady,
+  inProgress,
+  setInProgress,
+  finished,
+  setFinished,
+}) {
   const tasksLength =
-    props.backlog.length +
-    props.ready.length +
-    props.inProgress.length +
-    props.finished.length;
+    backlog.length + ready.length + inProgress.length + finished.length;
 
   function addTask(task, column) {
     if (column === "Backlog") {
-      props.setBacklog([...props.backlog, task]);
+      setBacklog([...backlog, task]);
     } else if (column === "Ready") {
-      props.setReady([...props.ready, task]);
-      props.setBacklog(props.backlog.filter((el) => el.id !== task.id));
+      setReady([...ready, task]);
+      setBacklog(backlog.filter((el) => el.id !== task.id));
     } else if (column === "In Progress") {
-      props.setInProgress([...props.inProgress, task]);
-      props.setReady(props.ready.filter((el) => el.id !== task.id));
+      setInProgress([...inProgress, task]);
+      setReady(ready.filter((el) => el.id !== task.id));
     } else {
-      props.setFinished([...props.finished, task]);
-      props.setInProgress(props.inProgress.filter((el) => el.id !== task.id));
+      setFinished([...finished, task]);
+      setInProgress(inProgress.filter((el) => el.id !== task.id));
     }
   }
+
+  const columnData = useMemo(
+    () => [
+      {
+        name: "Backlog",
+        tasks: backlog,
+        select: null,
+      },
+      {
+        name: "Ready",
+        tasks: ready,
+        select: backlog,
+      },
+      {
+        name: "In Progress",
+        tasks: inProgress,
+        select: ready,
+      },
+      {
+        name: "Finished",
+        tasks: finished,
+        select: inProgress,
+      },
+    ],
+    [backlog, ready, inProgress, finished]
+  );
 
   return (
     <div className="main">
       <div className="container">
-        <TaskBlock
-          name="Backlog"
-          tasks={props.backlog}
-          addTask={addTask}
-          tasksLength={tasksLength}
-        ></TaskBlock>
-        <TaskBlock
-          name="Ready"
-          tasks={props.ready}
-          select={props.backlog}
-          addTask={addTask}
-          length={props.backlog.length}
-          tasksLength={tasksLength}
-        ></TaskBlock>
-        <TaskBlock
-          name="In Progress"
-          tasks={props.inProgress}
-          select={props.ready}
-          addTask={addTask}
-          length={props.ready.length}
-          tasksLength={tasksLength}
-        ></TaskBlock>
-        <TaskBlock
-          name="Finished"
-          tasks={props.finished}
-          select={props.inProgress}
-          addTask={addTask}
-          length={props.inProgress.length}
-          tasksLength={tasksLength}
-        ></TaskBlock>
+        {columnData.map((column) => (
+          <TaskBlock
+            key={column.name}
+            name={column.name}
+            tasks={column.tasks}
+            select={column.select}
+            addTask={addTask}
+            tasksLength={tasksLength}
+          ></TaskBlock>
+        ))}
       </div>
     </div>
   );

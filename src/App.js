@@ -26,9 +26,6 @@ function App() {
   const [inProgress, setInProgress] = useLocalStorage("in_progress");
   const [finished, setFinished] = useLocalStorage("finished");
 
-  const activeTasks = backlog.length;
-  const finishedTasks = finished.length;
-
   return (
     <div className="wrapper">
       <Header />
@@ -64,7 +61,7 @@ function App() {
           }
         />
       </Routes>
-      <Footer activeTasks={activeTasks} finishedTasks={finishedTasks} />
+      <Footer activeTasks={backlog.length} finishedTasks={finished.length} />
     </div>
   );
 }

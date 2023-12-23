@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import TaskBlock from "./TaskBlock";
 
 export default function Main({
@@ -14,20 +14,32 @@ export default function Main({
   const tasksLength =
     backlog.length + ready.length + inProgress.length + finished.length;
 
-  function addTask(task, column) {
-    if (column === "Backlog") {
-      setBacklog([...backlog, task]);
-    } else if (column === "Ready") {
-      setReady([...ready, task]);
-      setBacklog(backlog.filter((el) => el.id !== task.id));
-    } else if (column === "In Progress") {
-      setInProgress([...inProgress, task]);
-      setReady(ready.filter((el) => el.id !== task.id));
-    } else {
-      setFinished([...finished, task]);
-      setInProgress(inProgress.filter((el) => el.id !== task.id));
-    }
-  }
+  const addTask = useCallback(
+    (task, column) => {
+      if (column === "Backlog") {
+        setBacklog([...backlog, task]);
+      } else if (column === "Ready") {
+        setReady([...ready, task]);
+        setBacklog(backlog.filter((el) => el.id !== task.id));
+      } else if (column === "In Progress") {
+        setInProgress([...inProgress, task]);
+        setReady(ready.filter((el) => el.id !== task.id));
+      } else {
+        setFinished([...finished, task]);
+        setInProgress(inProgress.filter((el) => el.id !== task.id));
+      }
+    },
+    [
+      backlog,
+      ready,
+      inProgress,
+      finished,
+      setBacklog,
+      setReady,
+      setInProgress,
+      setFinished,
+    ]
+  );
 
   const columnData = useMemo(
     () => [
@@ -60,13 +72,12 @@ export default function Main({
       <div className="container">
         {columnData.map((column) => (
           <TaskBlock
-            key={column.name}
             name={column.name}
             tasks={column.tasks}
             select={column.select}
             addTask={addTask}
             tasksLength={tasksLength}
-          ></TaskBlock>
+          />
         ))}
       </div>
     </div>

@@ -1,7 +1,16 @@
 import React, { useRef } from "react";
 import { useLocation, useParams, Link } from "react-router-dom";
 
-export default function TaskDescription(props) {
+export default function TaskDescription({
+  backlog,
+  setBacklog,
+  ready,
+  setReady,
+  inProgress,
+  setInProgress,
+  finished,
+  setFinished,
+}) {
   let { state } = useLocation();
   let { taskId } = useParams();
 
@@ -18,13 +27,13 @@ export default function TaskDescription(props) {
 
   function changeTaskDescription() {
     if (state.column === "Backlog") {
-      changeDescription(props.backlog, props.setBacklog);
+      changeDescription(backlog, setBacklog);
     } else if (state.column === "Ready") {
-      changeDescription(props.ready, props.setReady);
+      changeDescription(ready, setReady);
     } else if (state.column === "In Progress") {
-      changeDescription(props.inProgress, props.setInProgress);
+      changeDescription(inProgress, setInProgress);
     } else {
-      changeDescription(props.finished, props.setFinished);
+      changeDescription(finished, setFinished);
     }
   }
 

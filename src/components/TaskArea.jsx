@@ -1,20 +1,23 @@
 import React from "react";
 
-export default function TaskArea(props) {
+export default function TaskArea({
+  task,
+  setTask,
+  addTask,
+  setAreaOpen,
+  tasksLength,
+}) {
   function handleChange(e) {
-    props.setTask({ text: e.target.value, description: "" });
+    setTask({ text: e.target.value, description: "" });
   }
 
   function handleKeyUp(e) {
     if (e.code === "Enter") {
-      if (props.task.text.trim()) {
-        props.addTask(
-          { id: props.tasksLength, text: props.task.text, ...props.task },
-          "Backlog"
-        );
+      if (task.text.trim()) {
+        addTask({ id: tasksLength, text: task.text, ...task }, "Backlog");
       }
-      props.setTask({ id: 0, text: "", description: "" });
-      props.setAreaOpen(false);
+      setTask({ id: 0, text: "", description: "" });
+      setAreaOpen(false);
     }
   }
 
@@ -22,7 +25,7 @@ export default function TaskArea(props) {
     <input
       className="input"
       style={{ fontSize: "inherit", borderRadius: "5px", padding: "8px" }}
-      value={props.task.text}
+      value={task.text}
       onChange={handleChange}
       onKeyUp={handleKeyUp}
       name="task"

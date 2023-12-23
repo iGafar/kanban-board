@@ -4,45 +4,42 @@ import plus from "../assets/images/add-card.svg";
 import TaskArea from "./TaskArea";
 import TaskSelect from "./TaskSelect";
 
-export default function TaskBlock(props) {
+export default function TaskBlock({
+  name,
+  tasks,
+  select,
+  addTask,
+  tasksLength,
+}) {
   const [isAreaOpen, setAreaOpen] = useState(false);
   const [task, setTask] = useState({ id: 0, text: "", description: "" });
 
   function activityBlock() {
-    if (props.name === "Backlog") {
+    if (name === "Backlog") {
       return (
         <TaskArea
           task={task}
           setTask={setTask}
-          addTask={props.addTask}
+          addTask={addTask}
           setAreaOpen={setAreaOpen}
-          tasksLength={props.tasksLength}
+          tasksLength={tasksLength}
         />
       );
     } else {
-      if (props.select.length === 0) {
+      if (select.length === 0) {
         setAreaOpen(!isAreaOpen);
       } else {
-        return (
-          <TaskSelect
-            tasks={props.select}
-            addTask={props.addTask}
-            column={props.name}
-          />
-        );
+        return <TaskSelect tasks={select} addTask={addTask} column={name} />;
       }
     }
   }
 
   function addButtonEvent() {
-    if (props.name === "Backlog") {
+    if (name === "Backlog") {
       if (isAreaOpen && task.text) {
         setAreaOpen(!isAreaOpen);
         if (task.text.trim()) {
-          props.addTask(
-            { id: props.tasksLength, ...task, description: "" },
-            "Backlog"
-          );
+          addTask({ id: tasksLength, ...task, description: "" }, "Backlog");
         }
         setTask({ id: 0, text: "", description: "" });
       } else {
@@ -55,16 +52,13 @@ export default function TaskBlock(props) {
 
   return (
     <div className="block">
-      <h3>{props.name}</h3>
+      <h3>{name}</h3>
       <ul className="block-list">
-        {props.tasks.length ? (
-          props.tasks.map((task, index) => {
+        {tasks.length ? (
+          tasks.map((task, index) => {
             return (
               <li className="block-task" key={index}>
-                <Link
-                  to={`tasks/${task.id}`}
-                  state={{ task, column: props.name }}
-                >
+                <Link to={`tasks/${task.id}`} state={{ task, column: name }}>
                   {task.text}
                 </Link>
               </li>
@@ -79,9 +73,7 @@ export default function TaskBlock(props) {
 
       <button
         className="button"
-        disabled={
-          props.name !== "Backlog" && !props.select.length ? true : false
-        }
+        disabled={name !== "Backlog" && !select.length ? true : false}
         style={{
           backgroundColor: !isAreaOpen || "#0079BF",
           color: !isAreaOpen || "#fff",

@@ -18,7 +18,10 @@ export default function Header() {
             src={arrow}
             alt="arrow"
             className="user-arrow"
-            style={{ transition: "all 200ms linear", transform: isRotate ? "scaleY(-1)" : "none" }}
+            style={{
+              transition: "all 200ms linear",
+              transform: isRotate ? "scaleY(-1)" : "none",
+            }}
           />
 
           {isRotate && (
